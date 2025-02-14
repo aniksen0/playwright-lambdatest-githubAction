@@ -33,7 +33,7 @@ jobs:
         username: ${{ secrets.EMAIL_USERNAME }}
         password: ${{ secrets.EMAIL_PASSWORD }}
         subject: Playwright Test Results
-        body: The Playwright test results are attached.
+        body: The Playwright test results are attached here.
         to: aniksen5895@gmail.com
         from: anik.sen001@gmail.com
         attachments: playwright-report/**
