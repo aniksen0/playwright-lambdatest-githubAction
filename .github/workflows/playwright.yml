@@ -26,14 +26,7 @@ jobs:
         path: playwright-report/
         retention-days: 30
     - name: Send email with test results
-      uses: dawidd6/action-send-mail@v3
-      with:
-        server_address: smtp.gmail.com
-        server_port: 587
-        username: ${{ secrets.EMAIL_USERNAME }}
-        password: ${{ secrets.EMAIL_PASSWORD }}
-        subject: Playwright Test Results
-        body: The Playwright test results are attached here.
-        to: aniksen5895@gmail.com
-        from: anik.sen001@gmail.com
-        attachments: playwright-report/**
+      if: always()
+      run: |
+        TEST_RESULTS=$(npx playwright show-report --reporter=json-summary | jq -r '.status')
+        echo "Test Results: $TEST_RESULTS" | mail -s "Playwright Test Results" -S smtp="smtp.gmail.com:587" -S smtp-use-starttls -S smtp-auth=login -S smtp-auth-user="${{ secrets.EMAIL_USERNAME }}" -S smtp-auth-password="${{ secrets.EMAIL_PASSWORD }}" -S from="anik.sen001@gmail.com" aniksen5895@gmail.com
