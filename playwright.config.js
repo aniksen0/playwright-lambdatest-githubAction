@@ -12,6 +12,23 @@ import { defineConfig, devices } from '@playwright/test';
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
+const capabilities = {
+    browserName: "Chrome", // Browsers allowed: `Chrome`, `MicrosoftEdge`, `pw-chromium`, `pw-firefox` and `pw-webkit`
+    browserVersion: "latest",
+    "LT:Options": {
+        platform: "Windows 10",
+        build: "Playwright Test from config",
+        name: "Playwright Test - 1",
+        user: 'anik.sen001',
+        accessKey: 'tGhdsXx83REBXnZqo1o2n4Hs9VVORYUUUHO3QHZRjEkNcEek8A',
+        network: true,
+        video: true,
+        console: true,
+        tunnel: false, // Add tunnel configuration if testing locally hosted webpage
+        tunnelName: "", // Optional
+        geoLocation: '', // country code can be fetched from https://www.lambdatest.com/capabilities-generator/
+    },
+};
 export default defineConfig({
   testDir: './tests',
   timeout: 120000,
@@ -29,6 +46,9 @@ export default defineConfig({
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: 'https://evaly.com.bd/',
+    connectOptions: {
+      wsEndpoint: `wss://cdp.lambdatest.com/playwright?capabilities=${encodeURIComponent(JSON.stringify(capabilities))}`
+    },
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
